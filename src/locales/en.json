@@ -1,0 +1,16 @@
+{
+  "en": {
+    "navbar": {
+      "home": "Home"
+    },
+    "companies": {
+      "newCompanyTitle": "New Company",
+      "legalName": "Legal Name",
+      "enterpriseNumber": "Enterprise Number",
+      "annualRevenue": "Annual Revenue",
+      "naturalPerson": "Natural Person",
+      "nacebelCodes": "NACE-BEL Codes",
+      "submit": "Register"
+    }
+  }
+}
