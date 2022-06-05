@@ -1,7 +1,7 @@
 <template>
   <v-select
     v-bind:label="$t('companies.naceBelForm.code')"
-    v-bind:items="this.storeData.naceBelCodes"
+    v-bind:items="this.storeData.naceBelCodes[this.level]"
     item-text="title"
     item-value="code"
     v-bind:change="changedValue(this.form[id])"
@@ -25,7 +25,10 @@
       id: _.uniqueId('nacebelform-'),
     }),
     props: {
-      level: String,
+      level: Number,
+    },
+    setup(props) {
+      // setup
     },
     emits: ['updatedcount'],
     created() {
@@ -42,15 +45,17 @@
           .then((response) => _.get(response, 'data.getNaceBelCodes', {}))
           .then(response => {
             if (response.success) {
+              const codes = {};
+              codes[this.level] = _.map(response.naceBelCodes, function(item) {
+                return {
+                  title: item.labelEn || '',
+                  code: item.code || '-',
+                  disabled: (item.code == null),
+                  divider: (item.code == null),
+                }
+              });
               this.setStoreData({
-                'naceBelCodes': _.map(response.naceBelCodes, function(item) {
-                  return {
-                    title: item.labelEn || '',
-                    code: item.code || '-',
-                    disabled: (item.code == null),
-                    divider: (item.code == null),
-                  }
-                })
+                'naceBelCodes': codes
               });
             }
           });

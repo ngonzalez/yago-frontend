@@ -60,7 +60,7 @@
             </div>
             <div class="form-group">
               <NaceBelForm
-                level="1"
+                :level="item.level"
                 v-for="item in this.naceBelForms"
                 @updatedcount="mydata"
                 >
@@ -90,24 +90,26 @@
   export default {
     name: 'CompanyForm',
     components: { NaceBelForm },
-    created() {
-      // created
-    },
     data() {
       return {
         breadcrumbs: [],
         form: {},
-        naceBelForms: ['form'],
+        naceBelForms: [{ level: 1 }],
+        newForm: null,
       };
     },
     watch: {
+      '$data.newForm': {
+        handler: function(newValue) {
+          this.naceBelForms.push({ level: newValue });
+        },
+      },
       '$route.name': {
         handler: function(route_name) {
           switch (route_name) {
             // /company/new
             case 'company_new': {
               this.loadBreadCrumbs();
-              // this.getNaceBelCodes(this.defaultNaceBelParams);
               break;
             }
             // /companies
@@ -125,10 +127,7 @@
     methods: {
       ...mapMutations(['setStoreData']),
       mydata(event) {
-        this.naceBelForms = _.times((parseInt(event.level) + 1), _.constant('form'));
-      },
-      addPiece() {
-        this.naceBelForms = [1,2];
+        this.newForm = event.level + 1;
       },
       loadBreadCrumbs() {
         this.breadcrumbs = [];
