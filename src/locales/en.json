@@ -10,6 +10,7 @@
       "annualRevenue": "Annual Revenue",
       "naturalPerson": "Natural Person",
       "nacebelCodes": "NACE-BEL Codes",
+      "clear": "Clear",
       "submit": "Register",
       "naceBelForm": {
         "code": "Code",

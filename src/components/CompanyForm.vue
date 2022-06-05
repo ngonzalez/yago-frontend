@@ -61,8 +61,10 @@
             <div class="form-group">
               <NaceBelForm
                 :level="item.level"
+                :parentCode="item.parentCode"
                 v-for="item in this.naceBelForms"
-                @updatedcount="mydata"
+                @updatedcount="updateNaceBelForms"
+                @clearclicked="clearNaceBelForms"
                 >
               </NaceBelForm>
             </div>
@@ -94,14 +96,18 @@
       return {
         breadcrumbs: [],
         form: {},
-        naceBelForms: [{ level: 1 }],
-        newForm: null,
+        naceBelForms: [{ level: 1, parentCode: '' }],
+        newFormParentCode: '',
+        newFormLevel: null,
       };
     },
     watch: {
-      '$data.newForm': {
+      '$data.newFormLevel': {
         handler: function(newValue) {
-          this.naceBelForms.push({ level: newValue });
+          console.log('handler');
+          console.log(newValue);
+          console.log(this.newFormParentCode);
+          this.naceBelForms.push({ level: newValue, parentCode: this.newFormParentCode });
         },
       },
       '$route.name': {
@@ -126,9 +132,6 @@
     },
     methods: {
       ...mapMutations(['setStoreData']),
-      mydata(event) {
-        this.newForm = event.level + 1;
-      },
       loadBreadCrumbs() {
         this.breadcrumbs = [];
         this.breadcrumbs.push({
@@ -138,6 +141,17 @@
             name: 'company_new'
           },
         });
+      },
+      clearNaceBelForms(event) {
+        console.log('clearNaceBelForms');
+        console.log(event);
+        this.naceBelForms = [];
+        this.newFormLevel = event.level;
+        this.newFormParentCode = event.value;
+      },
+      updateNaceBelForms(event) {
+        this.newFormLevel = event.level + 1;
+        this.newFormParentCode = event.value;
       },
       handleClickSubmit() {
         this.queryExternalApi();

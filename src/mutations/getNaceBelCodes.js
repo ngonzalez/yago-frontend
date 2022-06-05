@@ -3,9 +3,11 @@ import gql from 'graphql-tag';
 const mutation = gql`
   mutation getNaceBelCodes(
     $level: Int!,
+    $parentCode: String!,
   ) {
     getNaceBelCodes(input: {
       level: $level,
+      parentCode: $parentCode,
     }) {
       naceBelCodes {
         id
@@ -26,11 +28,13 @@ const mutation = gql`
 export default function({
   apollo,
   level,
+  parentCode,
 }) {
   return apollo.mutate({
     mutation,
     variables: {
-      level
+      level,
+      parentCode
     }
   });
 }
