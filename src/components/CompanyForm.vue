@@ -59,7 +59,12 @@
               </v-checkbox>
             </div>
             <div class="form-group">
-              <nace-bel-form level="1"></nace-bel-form>
+              <NaceBelForm
+                level="1"
+                v-for="item in this.naceBelForms"
+                @updatedcount="mydata"
+                >
+              </NaceBelForm>
             </div>
             <div class="text-center">
               <button
@@ -91,7 +96,8 @@
     data() {
       return {
         breadcrumbs: [],
-        form: { },
+        form: {},
+        naceBelForms: ['form'],
       };
     },
     watch: {
@@ -118,6 +124,12 @@
     },
     methods: {
       ...mapMutations(['setStoreData']),
+      mydata(event) {
+        this.naceBelForms = _.times((parseInt(event.level) + 1), _.constant('form'));
+      },
+      addPiece() {
+        this.naceBelForms = [1,2];
+      },
       loadBreadCrumbs() {
         this.breadcrumbs = [];
         this.breadcrumbs.push({
