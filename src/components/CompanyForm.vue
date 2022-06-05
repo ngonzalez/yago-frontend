@@ -15,7 +15,7 @@
         <v-col cols="6">
           <hr class="invisible" />
           <h5>
-            {{ $t('companies.new_company_title') }}
+            {{ $t('companies.newCompanyTitle') }}
           </h5>
           <form class="simple_form form-horizontal">
             <div class="form-group">
@@ -58,6 +58,9 @@
                 v-model="form.naturalPerson">
               </v-checkbox>
             </div>
+            <div class="form-group">
+              <nace-bel-form level="1"></nace-bel-form>
+            </div>
             <div class="text-center">
               <button
                 class="btn btn-default btn btn-primary"
@@ -75,29 +78,30 @@
 
 <script>
   import { mapMutations } from 'vuex';
+  import NaceBelForm from '../components/NaceBelForm.vue';
   import _ from 'lodash';
   import _get from 'lodash/get';
 
   export default {
     name: 'CompanyForm',
-    components: { },
+    components: { NaceBelForm },
     created() {
       // created
     },
     data() {
       return {
         breadcrumbs: [],
-        form: {},
-        seraphinApiResponse: {},
+        form: { },
       };
     },
-    watch:{
+    watch: {
       '$route.name': {
         handler: function(route_name) {
           switch (route_name) {
             // /company/new
             case 'company_new': {
               this.loadBreadCrumbs();
+              // this.getNaceBelCodes(this.defaultNaceBelParams);
               break;
             }
             // /companies
