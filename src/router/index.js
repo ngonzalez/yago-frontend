@@ -1,5 +1,7 @@
 import CompanyNew from '../views/CompanyNew.vue';
+import CompanyShow from '../views/CompanyShow.vue';
 import NaceBelNew from '../views/NaceBelNew.vue';
+import QuoteShow from '../views/QuoteShow.vue';
 import PageNotFound from '../views/404.vue';
 
 const routes = [
@@ -21,6 +23,16 @@ const routes = [
     path: '/companies',
     name: 'companies',
     component: CompanyNew,
+  },
+  {
+    path: '/companies/:id',
+    name: 'company_show',
+    component: CompanyShow,
+  },
+  {
+    path: '/companies/:companyId/quotes/:id',
+    name: 'quote_show',
+    component: QuoteShow,
   },
   {
     path: '/:catchAll(.*)*',

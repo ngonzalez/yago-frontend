@@ -209,7 +209,9 @@
         this.queryExternalApi();
       },
       getNaceBelCodes() {
-        return _.map(this.storeData.codes, function(item) { return item.code })
+        return _.map(this.storeData.codes, function(item) {
+          return item.code
+        });
       },
       queryExternalApi() {
         const payload = {
@@ -234,6 +236,7 @@
               this.createCompany();
             } else {
               this.$toast.warning("Failed to process company");
+              this.$toast.error(response.data.message);
             }
           })
         } catch (error) {
@@ -276,6 +279,13 @@
                 'createQuoteBackend': response,
               });
               this.$toast.info("Quote created successfully");
+              this.$router.push({
+                name: 'quote_show',
+                params: {
+                  id: this.storeData.createQuoteBackend.quote.remoteQuoteId,
+                  companyId: this.storeData.createCompanyBackend.company.itemId,
+                }
+              });
             } else {
               this.$toast.warning("Failed to create quote");
             }

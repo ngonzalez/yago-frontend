@@ -19,6 +19,9 @@
         "label": "Label",
         "submit": "Submit"
       }
+    },
+    "quotes": {
+      "quotesTitle": "Quote"
     }
   }
 }
