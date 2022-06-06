@@ -6,12 +6,12 @@ export default {
 
     // lists
     selectedCodes() {
-      if (!this.storeData.selectedCodes) return;
-      return this.storeData.selectedCodes;
+      if (!this.storeData.codes) return;
+      return this.storeData.codes;
     },
     hasSelectedCodes() {
-      return this.storeData.selectedCodes &&
-             this.storeData.selectedCodes.length > 0
+      return this.storeData.codes &&
+             this.storeData.codes.length > 0
     },
     
   },

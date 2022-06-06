@@ -12,6 +12,7 @@
       "nacebelCodes": "NACE-BEL Codes",
       "clear": "Clear",
       "submit": "Register",
+      "removeItem": "Remove",
       "naceBelForm": {
         "code": "Code",
         "parentCode": "Parent Code",

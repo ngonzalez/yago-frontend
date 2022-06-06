@@ -8,7 +8,7 @@
           x-small
           outlined
           label>
-          {{ this.form.selectedItem }} : {{ this.form[this.level] }}
+          {{ this.form[this.level] }}
         </v-chip>
       </v-list-item-title>
     </v-list-item>
@@ -64,7 +64,7 @@
         const items = this.selectOptions;
         this.form.selectedItem = _.find(items, function(item) { return item.code == code }).title;
         this.$emit('setcode', { level: this.level, code: code, selectedItem: this.form.selectedItem });
-        this.$emit('updatedcount', { level: this.level + 1, parentCode: code });
+        this.$emit('updatedcount', { level: this.level, code: code });
       },
       loadNaceBelList() {
         getNaceBelCodes({

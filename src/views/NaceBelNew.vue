@@ -44,7 +44,6 @@
   import { mapMutations } from 'vuex';
   import NaceBelForm from '../components/NaceBelForm.vue';
   import _ from 'lodash';
-  import _get from 'lodash/get';
 
   export default {
     name: 'NaceBelNew',
@@ -61,9 +60,7 @@
     },
     created() {
       this.newForm = { level: 1, parentCode: '' };
-      if (!this.storeData.selectedCodes) {
-        this.setStoreData({ 'selectedCodes': [] });
-      }
+      if (!this.storeData.codes) this.setStoreData({ 'codes': [] });
     },
     watch: {
       newForm: {
@@ -102,10 +99,12 @@
       },
       setNaceBelCode(event) {
         if (event.code.length == 5) {
-          this.storeData.selectedCodes.push({
+          const codes = this.storeData.codes;
+          codes.push({
             code: event.code,
             selectedItem: event.selectedItem,
           });
+          this.setStoreData({ 'codes': codes });
         }
       },
       clearNaceBelForms(event) {
@@ -116,17 +115,16 @@
         };
       },
       updateNaceBelForms(event) {
-        if ((event.level - 1) == this.naceBelFormMaximumLevel) return;
+        if ((event.level) == this.naceBelFormMaximumLevel) return;
         this.newForm = {
-          level: event.level,
-          parentCode: event.parentCode,
+          level: event.level + 1,
+          parentCode: event.code,
         };
       },
       handleClickSubmit() {
         this.$router.push({
           name: 'company_new',
         });
-        
       },
     },
   };
