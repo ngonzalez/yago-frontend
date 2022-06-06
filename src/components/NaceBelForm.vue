@@ -1,12 +1,14 @@
 <template>
   <hr />
+  {{ this.selectedItem.title }}
+  {{ this.form }}
   <v-select
     v-bind:label="$t('companies.naceBelForm.code')"
-    v-bind:items="this.storeData.naceBelCodes[this.level]"
+    v-bind:items="this.storeData.naceBelCodes[this.id]"
+    v-bind:input="changedValue(this.form)"
     item-text="title"
     item-value="code"
-    v-bind:change="changedValue(this.form[this.level])"
-    v-model="this.form[this.level]"
+    v-model="this.form[this.id]"
     class="pa-1 ma-1"
     color="white darken-2"
     outlined
@@ -15,7 +17,6 @@
     @click:clear="handleClickClear"
     variant="outlined">
   </v-select>
-  {{ this.form }}
 </template>
 
 <script>
@@ -26,6 +27,8 @@
   export default {
     data: () => ({
       form: {},
+      selectedItem: {},
+      id: _.uniqueId('form--'),
     }),
     props: {
       level: Number,
@@ -33,7 +36,6 @@
     },
     setup(props) {
       // setup
-      console.log(props);
     },
     emits: ['updatedcount', 'clearclicked'],
     created() {
@@ -44,16 +46,24 @@
       handleClickClear(event) {
         console.log('handleClickClear');
         console.log(event);
-        this.$emit('clearclicked', { level: 1, value: '' })
-        this.form = {};
-        this.loadNaceBelList();
+        this.$emit('clearclicked', { level: 1, parentCode: '' })
+        this.selectedItem = {};
       },
-      changedValue(value) {
-        if (typeof value !== 'undefined')
-          this.$emit('updatedcount', { level: this.level, value: value })
+      changedValue(event) {
+        if (typeof event[this.id] == 'undefined') return;
+        if (typeof this.storeData.naceBelCodes[this.id] !== 'undefined') {
+          console.log('changedValue');
+          console.log(event[this.id])
+          this.$emit('updatedcount', { level: (this.level + 1), parentCode: event[this.id] })
+          let formId = this.id;
+          let selectedItem = null;
+          _.forEach(this.storeData.naceBelCodes[this.id], function(item) {
+            if (item.code == event[formId]) { selectedItem = item }
+          });
+          this.selectedItem = selectedItem;
+        }
       },
       loadNaceBelList() {
-        console.log('loadNaceBelList');
         getNaceBelCodes({
           apollo: this.$apollo,
           level: this.level,
@@ -62,9 +72,9 @@
           .then(response => {
             if (response.success) {
               const codes = {};
-              codes[this.level] = _.map(response.naceBelCodes, function(item) {
+              codes[this.id] = _.map(response.naceBelCodes, function(item) {
                 return {
-                  title: item.labelEn || '',
+                  title: item.labelEn || item.labelFr,
                   code: item.code || '-',
                   disabled: (item.code == null),
                   divider: (item.code == null),

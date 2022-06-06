@@ -96,18 +96,19 @@
       return {
         breadcrumbs: [],
         form: {},
+        naceBelFormMaximumLevel: 5,
         naceBelForms: [{ level: 1, parentCode: '' }],
-        newFormParentCode: '',
         newFormLevel: null,
+        newFormParentCode: '',
       };
     },
     watch: {
       '$data.newFormLevel': {
         handler: function(newValue) {
-          console.log('handler');
-          console.log(newValue);
-          console.log(this.newFormParentCode);
-          this.naceBelForms.push({ level: newValue, parentCode: this.newFormParentCode });
+          this.naceBelForms.push({
+            level: newValue,
+            parentCode: this.newFormParentCode,
+          });
         },
       },
       '$route.name': {
@@ -121,7 +122,6 @@
             // /companies
             case 'companies': {
               this.queryExternalApi();
-              console.log(this.$route.params);
               break;
             }
           }
@@ -146,12 +146,15 @@
         console.log('clearNaceBelForms');
         console.log(event);
         this.naceBelForms = [];
-        this.newFormLevel = event.level;
-        this.newFormParentCode = event.value;
+        this.newFormLevel = 1;
+        this.newFormParentCode = '';
       },
       updateNaceBelForms(event) {
-        this.newFormLevel = event.level + 1;
-        this.newFormParentCode = event.value;
+        if (event.level == this.naceBelFormMaximumLevel) return;
+        console.log('updateNaceBelForms');
+        console.log(event);
+        this.newFormLevel = event.level;
+        this.newFormParentCode = event.parentCode;
       },
       handleClickSubmit() {
         this.queryExternalApi();
