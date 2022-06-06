@@ -5,6 +5,7 @@
     },
     "companies": {
       "newCompanyTitle": "New Company",
+      "backCompanyForm": "Back to form",
       "legalName": "Legal Name",
       "enterpriseNumber": "Enterprise Number",
       "annualRevenue": "Annual Revenue",

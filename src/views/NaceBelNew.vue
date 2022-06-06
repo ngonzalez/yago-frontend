@@ -91,7 +91,7 @@
         this.breadcrumbs = [];
         this.breadcrumbs.push({
           disabled: false,
-          text: this.$t('companies.newCompanyTitle'),
+          text: this.$t('companies.backCompanyForm'),
           to: {
             name: 'company_new'
           },
