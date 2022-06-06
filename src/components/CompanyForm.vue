@@ -128,9 +128,18 @@
           switch (route_name) {
             // /company/new
             case 'company_new': {
+              this.setFormValues();
               this.loadBreadCrumbs();
               break;
             }
+
+            // /company/new
+            case 'company_new_redirect': {
+              this.clearFormValues();
+              this.loadBreadCrumbs();
+              break;
+            }
+
             // /companies
             case 'companies': {
               this.queryExternalApi();
@@ -141,9 +150,6 @@
         deep: true,
         immediate: true,
       },
-    },
-    created() {
-      this.setFormValues();
     },
     methods: {
       ...mapMutations(['setStoreData']),
@@ -156,6 +162,18 @@
             name: 'company_new'
           },
         });
+      },
+      clearFormValues() {
+        this.setStoreData({ 'enterpriseNumber': null });
+        this.form.enterpriseNumber = null;
+        this.setStoreData({ 'annualRevenue': null });
+        this.form.annualRevenue = null;
+        this.setStoreData({ 'legalName': null });
+        this.form.legalName = null;
+        this.setStoreData({ 'naturalPerson': null });
+        this.form.naturalPerson = null;
+        this.setStoreData({ 'codes': null });
+        this.form.codes = null;
       },
       setFormValues() {
         if (this.storeData.enterpriseNumber) {

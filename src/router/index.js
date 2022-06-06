@@ -15,6 +15,11 @@ const routes = [
     component: CompanyNew,
   },
   {
+    path: '/company/new',
+    name: 'company_new_redirect',
+    component: CompanyNew,
+  },
+  {
     path: '/company/nace_bel/new',
     name: 'company_nace_bel_new',
     component: NaceBelNew,

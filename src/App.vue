@@ -2,7 +2,7 @@
   <v-app>
     <v-main>
       <v-toolbar>
-        <router-link :to="{ name: 'company_new' }">
+        <router-link :to="{ name: 'company_new_redirect' }">
           <v-app-bar-nav-icon></v-app-bar-nav-icon>
         </router-link>
         <v-toolbar-title></v-toolbar-title>

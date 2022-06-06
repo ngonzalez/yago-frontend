@@ -89,17 +89,7 @@
           disabled: false,
           text: this.$t('companies.newCompanyTitle'),
           to: {
-            name: 'company_new'
-          },
-        });
-        this.breadcrumbs.push({
-          disabled: false,
-          text: this.storeData.loadCompanyBackend.company.legalName,
-          to: {
-            name: 'company_show',
-            params: {
-              id: this.storeData.loadCompanyBackend.company.id,
-            }
+            name: 'company_new_redirect'
           },
         });
         this.breadcrumbs.push({
@@ -109,7 +99,7 @@
             name: 'quote_show',
             params: {
               id: this.storeData.loadQuoteBackend.quote.remoteQuoteId,
-              companyId: this.storeData.loadCompanyBackend.company.id,
+              companyId: this.storeData.loadCompanyBackend.company.itemId,
             }
           },
         });
