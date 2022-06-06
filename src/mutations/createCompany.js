@@ -17,6 +17,7 @@ const mutation = gql`
     }) {
       company {
         id
+        itemId
         annualRevenue
         enterpriseNumber
         legalName

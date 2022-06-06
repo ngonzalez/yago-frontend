@@ -107,6 +107,7 @@
 <script>
   import { mapMutations } from 'vuex';
   import createCompany from '../mutations/createCompany';
+  import createQuote from '../mutations/createQuote';
   import NaceBelForm from '../components/NaceBelForm.vue';
   import _ from 'lodash';
   import axios from 'axios';
@@ -222,7 +223,8 @@
           'content-type': 'text/json',
           'X-Api-Key': this.apiParams.key,
         }
-        axios.post("https://staging-gtw.seraphin.be/quotes/professional-liability", payload, {
+        try {
+          axios.post("https://staging-gtw.seraphin.be/quotes/professional-liability", payload, {
             headers: headers,
           })
           .then((response) => _.get(response, 'data', {}))
@@ -234,6 +236,9 @@
               this.$toast.warning("Failed to process company");
             }
           })
+        } catch (error) {
+          this.$toast.warning("Failed to call external API");
+        }
       },
       createCompany() {
         const payload = {
@@ -243,28 +248,34 @@
           naturalPerson: this.form.naturalPerson,
           naceBelCodes: JSON.stringify(this.getNaceBelCodes()),
         };
-        console.log(payload);
         createCompany(_.assign({ apollo: this.$apollo }, payload))
           .then((response) => _.get(response, 'data.createCompany', {}))
           .then(response => {
             if (response.success) {
+              this.setStoreData({
+                'createCompanyBackend': response,
+              });
               this.createQuote();
             }
           });
       },
       createQuote() {
-        createQuote({
-          apollo: this.$apollo,
-          quoteId: this.seraphinApiResponse.quoteId,
-          ...this.form,
-        }).then((response) => _.get(response, 'data.createQuote', {}))
+        const payload = {
+          companyId: this.storeData.createCompanyBackend.company.itemId,
+          available: this.seraphinApiResponse.data.available,
+          coverageCeiling: this.seraphinApiResponse.data.coverageCeiling,
+          deductible: this.seraphinApiResponse.data.deductible,
+          quoteId: this.seraphinApiResponse.data.quoteId,
+          grossPremiums: JSON.stringify(this.seraphinApiResponse.data.grossPremiums),
+        };
+        createQuote(_.assign({ apollo: this.$apollo }, payload))
+          .then((response) => _.get(response, 'data.createQuote', {}))
           .then(response => {
             if (response.success) {
-              this.$toast.info("Quote created successfully");
-              this.$router.push({
-                name: 'quote_show',
-                params: { id: this.storeData.createCompany.response.quote.quoteId },
+              this.setStoreData({
+                'createQuoteBackend': response,
               });
+              this.$toast.info("Quote created successfully");
             } else {
               this.$toast.warning("Failed to create quote");
             }
