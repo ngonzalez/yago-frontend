@@ -39,18 +39,14 @@
         breadcrumbs: [],
       };
     },
-    created() {
-      // created
-    },
     watch: {
       '$route.name': {
         handler: function(route_name) {
           switch (route_name) {
+
             // /quotes/:id
             case 'quote_show': {
               this.loadCompanyBackend(parseInt(this.$route.params.companyId));
-              this.loadQuoteBackend(this.$route.params.id);
-              this.loadBreadCrumbs();
               break;
             }
           }
@@ -61,7 +57,7 @@
     },
     methods: {
       ...mapMutations(['setStoreData']),
-      loadCompanyBackend(companyId, callback) {
+      loadCompanyBackend(companyId) {
         getCompany(_.assign({ apollo: this.$apollo }, { companyId: companyId }))
           .then((response) => _.get(response, 'data.getCompany', {}))
           .then(response => {
@@ -69,6 +65,7 @@
               this.setStoreData({
                 'loadCompanyBackend': response,
               });
+              this.loadQuoteBackend(this.$route.params.id);
             }
           });
       },
@@ -80,6 +77,7 @@
               this.setStoreData({
                 'loadQuoteBackend': response,
               });
+              this.loadBreadCrumbs();
             }
           });
       },
@@ -97,6 +95,7 @@
           text: this.$t('quotes.quotesTitle'),
           to: {
             name: 'quote_show',
+            path: '/companies/:companyId/quotes/:id',
             params: {
               id: this.storeData.loadQuoteBackend.quote.remoteQuoteId,
               companyId: this.storeData.loadCompanyBackend.company.itemId,
