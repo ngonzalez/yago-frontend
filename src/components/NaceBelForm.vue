@@ -15,7 +15,7 @@
   </v-list>
   <v-select
     v-bind:label="$t('companies.naceBelForm.code')"
-    v-bind:items="this.storeData.naceBelCodes[this.id]"
+    v-bind:items="selectOptions"
     v-bind:input="changedValue(this.form)"
     item-text="title"
     item-value="code"
@@ -40,12 +40,13 @@
       form: {},
       selectedItem: null,
       id: _.uniqueId('form--'),
+      selectOptions: [],
     }),
     props: {
       level: Number,
       parentCode: String,
     },
-    emits: ['updatedcount', 'clearclicked'],
+    emits: ['updatedcount', 'clearclicked', 'setcode'],
     created() {
       this.loadNaceBelList();
     },
@@ -60,9 +61,9 @@
         if (this.form.selectedItem) return;
         if (typeof event[this.level] == 'undefined') return;
         const code = event[this.level];
-        const items = this.storeData.naceBelCodes[this.id];
-        const selectedItem = _.find(items, function(item) { return item.code == code });
+        const items = this.selectOptions;
         this.form.selectedItem = _.find(items, function(item) { return item.code == code }).title;
+        this.$emit('setcode', { level: this.level, code: code, selectedItem: this.form.selectedItem });
         this.$emit('updatedcount', { level: this.level + 1, parentCode: code });
       },
       loadNaceBelList() {
@@ -73,17 +74,13 @@
         }).then((response) => _.get(response, 'data.getNaceBelCodes', {}))
           .then(response => {
             if (response.success) {
-              const codes = {};
-              codes[this.id] = _.map(response.naceBelCodes, function(item) {
+              this.selectOptions = _.map(response.naceBelCodes, function(item) {
                 return {
                   title: item.labelEn || item.labelFr,
                   code: item.code || '-',
                   disabled: (item.code == null),
                   divider: (item.code == null),
                 }
-              });
-              this.setStoreData({
-                'naceBelCodes': codes
               });
             }
           });

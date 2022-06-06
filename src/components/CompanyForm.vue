@@ -56,21 +56,35 @@
               </v-checkbox>
             </div>
             <div class="form-group">
-              <NaceBelForm
-                :level="item.level"
-                :parentCode="item.parentCode"
-                v-for="item in this.naceBelForms"
-                @updatedcount="updateNaceBelForms"
-                @clearclicked="clearNaceBelForms"
-                >
-              </NaceBelForm>
+              <hr />
+              <div class="pa-5 ma-5">
+                <button @click="redirectNaceBelForm">Add NACE-BEL codes</button>
+              </div>
+            </div>
+            <div class="form-group" v-if="hasSelectedCodes">
+              <v-list>
+                <v-list-item v-for="item in selectedCodes">
+                  <v-list-item-title>
+                    <v-chip
+                      color="white darken-2"
+                      class="ma-1"
+                      x-small
+                      outlined
+                      label>
+                      {{ item.selectedItem }} : {{ item.code }}
+                    </v-chip>
+                  </v-list-item-title>
+                </v-list-item>
+              </v-list>
             </div>
             <div class="text-center">
-              <button
-                class="btn btn-default btn btn-primary"
-                @click.prevent="handleClickSubmit">
-                {{ $t('companies.submit') }}
-              </button>
+              <div class="pa-10 ma-10">
+                <button
+                  class="btn btn-default btn btn-primary"
+                  @click.prevent="handleClickSubmit">
+                  {{ $t('companies.submit') }}
+                </button>
+              </div>
             </div>
           </form>
         </v-col>
@@ -88,28 +102,14 @@
 
   export default {
     name: 'CompanyForm',
-    components: { NaceBelForm },
+    components: { },
     data() {
       return {
         breadcrumbs: [],
         form: {},
-        naceBelFormMaximumLevel: 5,
-        naceBelForms: [],
-        newForm: null,
       };
     },
-    created() {
-      this.newForm = { level: 1, parentCode: '' };
-    },
     watch: {
-      newForm: {
-        handler: function(newValue, oldValue) {
-          this.naceBelForms.push({
-            level: newValue.level,
-            parentCode: newValue.parentCode,
-          });
-        }
-      },
       '$route.name': {
         handler: function(route_name) {
           switch (route_name) {
@@ -141,24 +141,22 @@
           },
         });
       },
-      clearNaceBelForms(event) {
-        this.naceBelForms = [];
-        this.newForm = {
-          level: event.level,
-          parentCode: event.parentCode,
-        };
-      },
-      updateNaceBelForms(event) {
-        if (event.level == this.naceBelFormMaximumLevel) return;
-        this.newForm = {
-          level: event.level,
-          parentCode: event.parentCode,
-        };
+      redirectNaceBelForm() {
+        this.$router.push({
+          name: 'company_nace_bel_new',
+        });
       },
       handleClickSubmit() {
         this.queryExternalApi();
       },
       queryExternalApi() {
+        const payload = {
+          annualRevenue: this.form.annualRevenue,
+          enterpriseNumber: this.form.enterpriseNumber,
+          legalName: this.form.legalName,
+          naturalPerson: this.form.naturalPerson,
+          nacebelCodes: _.map(this.storeData.selectedCodes, function(item) { return item.code })
+        };
         // axios.post("https://staging-gtw.seraphin.be/quotes/professional-liability", _.assign({
         //     annualRevenue: this.form.annualRevenue,
         //     enterpriseNumber: this.form.enterpriseNumber,

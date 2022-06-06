@@ -15,7 +15,8 @@
       "naceBelForm": {
         "code": "Code",
         "parentCode": "Parent Code",
-        "label": "Label"
+        "label": "Label",
+        "submit": "Submit"
       }
     }
   }
