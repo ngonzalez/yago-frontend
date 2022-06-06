@@ -159,7 +159,7 @@
           disabled: false,
           text: this.$t('companies.newCompanyTitle'),
           to: {
-            name: 'company_new'
+            name: 'company_new_redirect'
           },
         });
       },
