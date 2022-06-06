@@ -14,9 +14,6 @@
         <v-col cols="3"></v-col>
         <v-col cols="6">
           <hr class="invisible" />
-          <h5>
-            {{ $t('companies.newCompanyTitle') }}
-          </h5>
           <form class="simple_form form-horizontal">
             <div class="form-group">
               <v-text-field
@@ -97,19 +94,21 @@
         breadcrumbs: [],
         form: {},
         naceBelFormMaximumLevel: 5,
-        naceBelForms: [{ level: 1, parentCode: '' }],
-        newFormLevel: null,
-        newFormParentCode: '',
+        naceBelForms: [],
+        newForm: null,
       };
     },
+    created() {
+      this.newForm = { level: 1, parentCode: '' };
+    },
     watch: {
-      '$data.newFormLevel': {
-        handler: function(newValue) {
+      newForm: {
+        handler: function(newValue, oldValue) {
           this.naceBelForms.push({
-            level: newValue,
-            parentCode: this.newFormParentCode,
+            level: newValue.level,
+            parentCode: newValue.parentCode,
           });
-        },
+        }
       },
       '$route.name': {
         handler: function(route_name) {
@@ -143,18 +142,18 @@
         });
       },
       clearNaceBelForms(event) {
-        console.log('clearNaceBelForms');
-        console.log(event);
         this.naceBelForms = [];
-        this.newFormLevel = 1;
-        this.newFormParentCode = '';
+        this.newForm = {
+          level: event.level,
+          parentCode: event.parentCode,
+        };
       },
       updateNaceBelForms(event) {
         if (event.level == this.naceBelFormMaximumLevel) return;
-        console.log('updateNaceBelForms');
-        console.log(event);
-        this.newFormLevel = event.level;
-        this.newFormParentCode = event.parentCode;
+        this.newForm = {
+          level: event.level,
+          parentCode: event.parentCode,
+        };
       },
       handleClickSubmit() {
         this.queryExternalApi();
