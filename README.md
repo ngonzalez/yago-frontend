@@ -5,14 +5,9 @@
 yarn install
 ```
 
-### Compiles and hot-reloads for development
+### Start application
 ```
-yarn serve
-```
-
-### Compiles and minifies for production
-```
-yarn build
+vue serve
 ```
 
 ### Lints and fixes files
