@@ -17,9 +17,9 @@
           <form class="simple_form form-horizontal">
             <div class="form-group">
               <NaceBelForm
+                v-for="item in this.naceBelForms"
                 :level="item.level"
                 :parentCode="item.parentCode"
-                v-for="item in this.naceBelForms"
                 @updatedcount="updateNaceBelForms"
                 @clearclicked="clearNaceBelForms"
                 @setcode="setNaceBelCode">
@@ -55,7 +55,6 @@
         naceBelFormMaximumLevel: 5,
         naceBelForms: [],
         newForm: null,
-        id: _.uniqueId('newform--'),
       };
     },
     created() {
@@ -74,6 +73,7 @@
       '$route.name': {
         handler: function(route_name) {
           switch (route_name) {
+
             // /company/nace_bel_new
             case 'company_nace_bel_new': {
               this.loadBreadCrumbs();
@@ -115,7 +115,7 @@
         };
       },
       updateNaceBelForms(event) {
-        if ((event.level) == this.naceBelFormMaximumLevel) return;
+        if (event.level == this.naceBelFormMaximumLevel) return;
         this.newForm = {
           level: event.level + 1,
           parentCode: event.code,

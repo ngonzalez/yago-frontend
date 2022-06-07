@@ -38,8 +38,6 @@
   export default {
     data: () => ({
       form: {},
-      selectedItem: null,
-      id: _.uniqueId('form--'),
       selectOptions: [],
     }),
     props: {
