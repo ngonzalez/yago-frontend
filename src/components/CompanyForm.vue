@@ -256,7 +256,7 @@
               this.createCompany();
             } else {
               this.$toast.warning("Failed to process company");
-              this.$toast.error(response.data.message);
+              console.debug(response.data.message);
             }
           })
         } catch (error) {
