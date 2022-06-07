@@ -4,6 +4,7 @@
       "home": "Home"
     },
     "companies": {
+      "companyTitle": "Company",
       "newCompanyTitle": "New Company",
       "backCompanyForm": "Back to form",
       "legalName": "Legal Name",
@@ -22,7 +23,17 @@
       }
     },
     "quotes": {
-      "quotesTitle": "Quote"
+      "quotesTitle": "Quote",
+      "available": "Available",
+      "quoteId": "Quote ID",
+      "coverageCeiling": "Coverage ceiling",
+      "deductible": "Deductible",
+      "premiums": "Premiums",
+      "afterDelivery": "After delivery",
+      "publicLiability": "Public Liability",
+      "professionalIndemnity": "Professional Indemnity",
+      "entrustedObjects": "Entrusted objects",
+      "legalExpenses": "Legal expenses"
     }
   }
 }

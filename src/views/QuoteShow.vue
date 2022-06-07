@@ -13,11 +13,93 @@
       <v-row>
         <v-col cols="3"></v-col>
         <v-col cols="6">
-          <h5>Company</h5>
-          {{ this.storeData.loadCompanyBackend }}
+          <h5>{{ $t('companies.companyTitle') }}</h5>
+          <v-container fluid style="text-align:left;">
+            <v-row>
+              <v-col cols="6">
+                {{ $t('companies.annualRevenue') }}
+              </v-col>
+              <v-col cols="6">
+                {{ this.storeData.loadCompanyBackend.company.annualRevenue }}
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col cols="6">
+                {{ $t('companies.enterpriseNumber') }}
+              </v-col>
+              <v-col cols="6">
+                {{ this.storeData.loadCompanyBackend.company.enterpriseNumber }}
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col cols="6">
+                {{ $t('companies.legalName') }}
+              </v-col>
+              <v-col cols="6">
+                {{ this.storeData.loadCompanyBackend.company.legalName }}
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col cols="6">
+                {{ $t('companies.naturalPerson') }}
+              </v-col>
+              <v-col cols="6">
+                {{ this.storeData.loadCompanyBackend.company.naturalPerson ? "yes" : "no" }}
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col cols="6">
+                {{ $t('companies.nacebelCodes') }}
+              </v-col>
+              <v-col cols="6">
+                {{ displayNaceBelCodes() }}
+              </v-col>
+            </v-row>
+          </v-container>
           <hr />
-          <h5>Quote</h5>
-          {{ this.storeData.loadQuoteBackend }}
+          <h5>{{ $t('quotes.quotesTitle') }}</h5>
+          <v-container fluid style="text-align:left;">
+            <v-row v-if="this.storeData.loadQuoteBackend.quote.available">
+              <v-col cols="6">
+                {{ $t('quotes.available') }}
+              </v-col>
+              <v-col cols="6">
+                <v-icon>mdi-check-bold</v-icon>
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col cols="6">
+                {{ $t('quotes.quoteId') }}
+              </v-col>
+              <v-col cols="6">
+                {{ this.storeData.loadQuoteBackend.quote.quoteId }}
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col cols="6">
+                {{ $t('quotes.coverageCeiling') }}
+              </v-col>
+              <v-col cols="6">
+                {{ this.storeData.loadQuoteBackend.quote.coverageCeiling }}
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col cols="6">
+                {{ $t('quotes.deductible') }}
+              </v-col>
+              <v-col cols="6">
+                {{ this.storeData.loadQuoteBackend.quote.deductible }}
+              </v-col>
+            </v-row>
+            <v-row v-for="(amount, name) in displayPremiums()">
+              <v-col cols="6">
+                {{ $t('quotes.' + name) }}
+              </v-col>
+              <v-col cols="6">
+                {{ amount }}
+              </v-col>
+            </v-row>
+          </v-container>
         </v-col>
         <v-col cols="3"></v-col>
       </v-row>
@@ -57,6 +139,12 @@
     },
     methods: {
       ...mapMutations(['setStoreData']),
+      displayNaceBelCodes() {
+        return JSON.parse(this.storeData.loadCompanyBackend.company.naceBelCodes);
+      },
+      displayPremiums() {
+        return JSON.parse(this.storeData.loadQuoteBackend.quote.grossPremiums);
+      },
       loadCompanyBackend(companyId) {
         getCompany(_.assign({ apollo: this.$apollo }, { companyId: companyId }))
           .then((response) => _.get(response, 'data.getCompany', {}))
