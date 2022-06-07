@@ -10,21 +10,10 @@ yarn install
 vue serve
 ```
 
-### Lints and fixes files
-```
-yarn lint
-```
+### Edit project configuration
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
-
-Please edit `src/main.js`
-
-```javascript
-let httpLink;
-httpLink = new HttpLink({
-  uri: 'http://localhost:3001/graphql',
-})
-```
-
+ * Edit `src/main.js`
 Set `uri` to the Rails backend application
+
+ * Edit `src/configurations/api_params.js` to include your key to the API
+Note: in production the key should be stored encrypted in database.
