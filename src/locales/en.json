@@ -16,7 +16,8 @@
       "submit": "Get Quote",
       "removeItem": "Remove",
       "error": {
-        "failedToCallApi": "Failed to call external service"
+        "failedToCallApi": "Failed to call external service",
+        "failedToProcessCompany": "Failed to process company"
       },
       "naceBelForm": {
         "addTitle": "Add NACE-BEL codes",

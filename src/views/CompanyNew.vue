@@ -257,7 +257,7 @@
               this.seraphinApiResponse = response;
               this.createCompany();
             } else {
-              this.$toast.warning(this.$t('companies.error.failedToCallApi'));
+              this.$toast.warning(this.$t('companies.error.failedToProcessCompany'));
               console.debug(response.data.message);
             }
           })
