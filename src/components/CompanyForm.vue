@@ -55,6 +55,8 @@
                 color="white darken-2"
                 outlined
                 variant="outlined"
+                true-value="yes"
+                false-value="no"
                 @change="this.naturalPersonChanged($event)"
                 v-model="form.naturalPerson">
               </v-checkbox>
@@ -186,7 +188,7 @@
           this.form.legalName = this.storeData.legalName;
         }
         if (this.storeData.naturalPerson) {
-          this.form.naturalPerson = this.storeData.naturalPerson == "true" ? true : false;
+          this.form.naturalPerson = this.storeData.naturalPerson;
         }
       },
       enterpriseNumberChanged(event) {
@@ -206,7 +208,7 @@
       },
       naturalPersonChanged(event) {
         this.setStoreData({
-          'naturalPerson': event.target.value,
+          'naturalPerson': event.target.checked ? "yes" : "no",
         });
       },
       handleClickRemove(item) {
