@@ -19,14 +19,14 @@ const routes = [
     component: CompanyNew,
   },
   {
-    path: '/company/nace_bel/new',
-    name: 'company_nace_bel_new',
-    component: NaceBelNew,
-  },
-  {
     path: '/companies',
     name: 'companies',
     component: CompanyNew,
+  },
+  {
+    path: '/company/nace_bel/new',
+    name: 'company_nace_bel_new',
+    component: NaceBelNew,
   },
   {
     path: '/companies/:companyId/quotes/:id',
