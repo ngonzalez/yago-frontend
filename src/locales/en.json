@@ -15,7 +15,11 @@
       "clear": "Clear",
       "submit": "Get Quote",
       "removeItem": "Remove",
+      "error": {
+        "failedToCallApi": "Failed to call external service"
+      },
       "naceBelForm": {
+        "addTitle": "Add NACE-BEL codes",
         "code": "Code",
         "parentCode": "Parent Code",
         "label": "Label",
@@ -33,7 +37,13 @@
       "publicLiability": "Public Liability",
       "professionalIndemnity": "Professional Indemnity",
       "entrustedObjects": "Entrusted objects",
-      "legalExpenses": "Legal expenses"
+      "legalExpenses": "Legal expenses",
+      "success": {
+        "create": "Quote created successfully"
+      },
+      "error": {
+        "create": "Failed to create quote"
+      }
     }
   }
 }

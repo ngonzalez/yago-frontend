@@ -64,7 +64,9 @@
             <div class="form-group">
               <hr />
               <div class="pa-5 ma-5">
-                <button @click="redirectNaceBelForm">Add NACE-BEL codes</button>
+                <button @click="redirectNaceBelForm">
+                  {{ $t('companies.naceBelForm.addTitle') }}
+                </button>
               </div>
             </div>
             <div class="form-group" v-if="hasSelectedCodes">
@@ -127,6 +129,7 @@
       '$route.name': {
         handler: function(route_name) {
           switch (route_name) {
+
             // /company/new
             case 'company_new': {
               this.setFormValues();
@@ -254,12 +257,12 @@
               this.seraphinApiResponse = response;
               this.createCompany();
             } else {
-              this.$toast.warning("Failed to process company");
+              this.$toast.warning(this.$t('companies.error.failedToCallApi'));
               console.debug(response.data.message);
             }
           })
         } catch (error) {
-          this.$toast.warning("Failed to call external API");
+          this.$toast.warning(this.$t('companies.error.failedToCallApi'));
         }
       },
       createCompany() {
@@ -297,7 +300,7 @@
               this.setStoreData({
                 'createQuoteBackend': response,
               });
-              this.$toast.info("Quote created successfully");
+              this.$toast.info(this.$t('quotes.success.create'));
               this.$router.push({
                 name: 'quote_show',
                 params: {
@@ -306,7 +309,7 @@
                 }
               });
             } else {
-              this.$toast.warning("Failed to create quote");
+              this.$toast.warning(this.$t('quotes.error.create'));
             }
           });
       }
