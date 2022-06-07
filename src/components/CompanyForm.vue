@@ -238,7 +238,7 @@
           annualRevenue:  parseInt(this.form.annualRevenue),
           enterpriseNumber: this.form.enterpriseNumber,
           legalName: this.form.legalName,
-          naturalPerson: this.form.naturalPerson,
+          naturalPerson: this.form.naturalPerson == "yes",
           nacebelCodes: this.getNaceBelCodes(),
         };
         const headers = {
@@ -268,7 +268,7 @@
           annualRevenue:  parseInt(this.form.annualRevenue),
           enterpriseNumber: this.form.enterpriseNumber,
           legalName: this.form.legalName,
-          naturalPerson: this.form.naturalPerson,
+          naturalPerson: this.form.naturalPerson == "yes",
           naceBelCodes: JSON.stringify(this.getNaceBelCodes()),
         };
         createCompany(_.assign({ apollo: this.$apollo }, payload))
