@@ -97,7 +97,7 @@
             name: 'quote_show',
             path: '/companies/:companyId/quotes/:id',
             params: {
-              id: this.storeData.loadQuoteBackend.quote.remoteQuoteId,
+              id: this.storeData.loadQuoteBackend.quote.quoteId,
               companyId: this.storeData.loadCompanyBackend.company.itemId,
             }
           },

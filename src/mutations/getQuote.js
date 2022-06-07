@@ -12,7 +12,7 @@ const mutation = gql`
         available
         coverageCeiling
         deductible
-        remoteQuoteId
+        quoteId
         grossPremiums
       }
       success

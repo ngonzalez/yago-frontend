@@ -302,7 +302,7 @@
               this.$router.push({
                 name: 'quote_show',
                 params: {
-                  id: this.storeData.createQuoteBackend.quote.remoteQuoteId,
+                  id: this.storeData.createQuoteBackend.quote.quoteId,
                   companyId: this.storeData.createCompanyBackend.company.itemId,
                 }
               });
