@@ -16,6 +16,7 @@
       "submit": "Get Quote",
       "removeItem": "Remove",
       "error": {
+        "create": "Failed to create company",
         "failedToCallApi": "Failed to call external service",
         "failedToProcessCompany": "Failed to process company"
       },

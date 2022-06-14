@@ -10,7 +10,7 @@
           </v-breadcrumbs>
         </v-col>
       </v-row>
-      <v-row>
+      <v-row v-if="this.hasCompany()">
         <v-col cols="3"></v-col>
         <v-col cols="6">
           <h5>{{ $t('companies.companyTitle') }}</h5>
@@ -58,7 +58,7 @@
           </v-container>
           <hr />
           <h5>{{ $t('quotes.quotesTitle') }}</h5>
-          <v-container fluid style="text-align:left;">
+          <v-container fluid style="text-align:left;" v-if="this.hasQuote()">
             <v-row v-if="this.storeData.loadQuoteBackend.quote.available">
               <v-col cols="6">
                 {{ $t('quotes.available') }}
@@ -144,6 +144,12 @@
       },
       displayPremiums() {
         return JSON.parse(this.storeData.loadQuoteBackend.quote.grossPremiums);
+      },
+      hasCompany() {
+        return this.storeData && this.storeData.loadCompanyBackend && this.storeData.loadCompanyBackend.company;
+      },
+      hasQuote() {
+        return this.storeData && this.storeData.loadQuoteBackend && this.storeData.loadQuoteBackend.quote;
       },
       loadCompanyBackend(companyId) {
         getCompany(_.assign({ apollo: this.$apollo }, { companyId: companyId }))

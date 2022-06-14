@@ -10,6 +10,21 @@
           </v-breadcrumbs>
         </v-col>
       </v-row>
+      <v-row v-if="hasErrors">
+        <v-col cols="3"></v-col>
+        <v-col cols="6">
+          <ul v-for="error in this.errors">
+            <li>
+              <v-alert
+                type="error"
+                icon="false">
+                {{ error }}
+              </v-alert>
+            </li>
+          </ul>
+        </v-col>
+        <v-col cols="3"></v-col>
+      </v-row>
       <v-row>
         <v-col cols="3"></v-col>
         <v-col cols="6">
@@ -121,6 +136,7 @@
     data() {
       return {
         breadcrumbs: [],
+        errors: [],
         form: {},
         seraphinApiResponse: {},
       };
@@ -166,6 +182,10 @@
             name: 'company_new_redirect'
           },
         });
+      },
+      hasErrors() {
+        return this.errors &&
+               this.errors.length > 0
       },
       clearFormValues() {
         this.setStoreData({ 'enterpriseNumber': null });
@@ -258,7 +278,7 @@
               this.createCompany();
             } else {
               this.$toast.warning(this.$t('companies.error.failedToProcessCompany'));
-              console.debug(response.data.message);
+              this.errors = response.data.message.split(';');
             }
           })
         } catch (error) {
@@ -281,7 +301,13 @@
                 'createCompanyBackend': response,
               });
               this.createQuote();
+            } else {
+              this.$toast.warning(this.$t('company.error.create'));
+              this.errors = response.errors;
             }
+          })
+          .catch((error) => {
+            this.$toast.warning(this.$t('company.error.create'));
           });
       },
       createQuote() {
@@ -310,7 +336,11 @@
               });
             } else {
               this.$toast.warning(this.$t('quotes.error.create'));
+              this.errors = response.errors;
             }
+          })
+          .catch((error) => {
+            this.$toast.warning(this.$t('quotes.error.create'));
           });
       }
     },
